@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { db } from '../app.js';
-import { isMatch, BookSchema } from '../schemas.js';
+import { isMatch } from '../validation.js';
+import BookSchema from '../schemas/book.js';
 
 const bookRouter = Router();
 

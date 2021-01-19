@@ -1,4 +1,4 @@
-// Validators
+// Field validation functions
 export const isString = (value) => typeof value === 'string';
 export const isNot = (badValue) => (value) => value !== badValue;
 export const isArray = (validator, notEmpty) => (value) => {
@@ -16,25 +16,7 @@ export const isArray = (validator, notEmpty) => (value) => {
 export const isBoolean = (value) => typeof value === 'boolean';
 export const isNumber = (value) => typeof value === 'number';
 
-// Schemas
-export const BookSchema = {
-  id: [isString, isNot('')],
-  name: [isString, isNot('')],
-  authors: [isArray([isString, isNot('')], true)],
-  year: [isNumber],
-  publisher: [isString],
-};
-
-export const LoanSchema = {
-  id: [isString, isNot('')],
-  bookId: [isString, isNot('')],
-  date: [isNumber, isNot('')],
-  clientName: [isString, isNot('')],
-  wasReturned: [isBoolean],
-  dateOfReturn: [isNumber, isNot('')],
-};
-
-// Matching
+// Schema validation function
 export const isMatch = (object, schema, { allowSubset = false } = {}) =>
   Object.keys(schema).every((key) => {
     // If we allow subsets, we'll return true, accepting that this key is missing.
