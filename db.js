@@ -43,6 +43,8 @@ class Database {
             }
           }
         });
+    } else {
+      this.#cache = defaultCache;
     }
   }
 
