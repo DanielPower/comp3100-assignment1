@@ -1,13 +1,11 @@
 import { Router } from 'express';
-import { db } from '../app.js';
-import { isMatch } from '../validation.js';
-import BookSchema from '../schemas/book.js';
+import { readDb, writeDb } from '../db.js';
 
 const bookRouter = Router();
 
 // Get books
 bookRouter.get('/', (req, res) => {
-  let books = Object.values(db.getCache().books);
+  let books = Object.values(readDb().books);
 
   // Filter query params
   const { year } = req.query;
@@ -20,7 +18,7 @@ bookRouter.get('/', (req, res) => {
 
 // Get book by id
 bookRouter.get('/:id', (req, res) => {
-  const book = db.getCache().books[req.params.id];
+  const book = readDb().books[req.params.id];
 
   // Handle book not found case
   if (!book) {
@@ -32,7 +30,7 @@ bookRouter.get('/:id', (req, res) => {
 });
 
 bookRouter.get('/available/:id', (req, res) => {
-  const cache = db.getCache();
+  const cache = readDb();
   const book = cache.books[req.params.id];
 
   // Handle book not found case
@@ -54,14 +52,14 @@ bookRouter.post('/', (req, res) => {
   const book = req.body;
 
   // Validate inserted data
-  if (!isMatch(book, BookSchema)) {
-    res.status(400).send();
-  }
+  // if (!isMatch(book, BookSchema)) {
+  //   res.status(400).send();
+  // }
 
   // Insert new book into cache
-  db.writeCache({
+  writeDb({
     books: {
-      [id]: book,
+      [book.id]: book,
     },
   });
   res.send();

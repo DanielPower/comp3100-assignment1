@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { db } from '../app.js';
 import { isMatch } from '../validation.js';
+import { readDb, writeDb } from '../db.js';
 import LoanSchema from '../schemas/loan.js';
 
 const loanRouter = Router();
 
 // Get loans
 loanRouter.get('/', (req, res) => {
-  let loans = Object.values(db.getCache().loans);
+  let loans = Object.values(readDb().loans);
 
   // Filter by finished status
   if (req.query.finished === 'true') {
@@ -29,13 +29,13 @@ loanRouter.post('/', (req, res) => {
   }
 
   // Prevent overwrite on post
-  if (db.getCache().loans[loan.id]) {
+  if (readDb().loans[loan.id]) {
     res.status(409).send();
     return;
   }
 
   // Write new loan data to cache
-  db.writeCache({
+  writeDb({
     loans: {
       [loan.id]: loan,
     },
@@ -46,7 +46,7 @@ loanRouter.post('/', (req, res) => {
 // Update a loan
 loanRouter.put('/', (req, res) => {
   const loan = req.body;
-  const existingLoan = db.getCache().loans[loan.id];
+  const existingLoan = readDb().loans[loan.id];
 
   // Handle loan not found case
   if (!existingLoan) {
@@ -55,7 +55,7 @@ loanRouter.put('/', (req, res) => {
   }
 
   // Modify existingLoan with new data
-  db.writeCache({
+  writeDb({
     loans: {
       [loan.id]: { ...existingLoan, ...loan },
     },
