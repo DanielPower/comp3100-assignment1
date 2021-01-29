@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { readDb, writeDb } from '../db.js';
 
 const bookRouter = Router();
@@ -50,11 +51,6 @@ bookRouter.get('/available/:id', (req, res) => {
 // Insert a book
 bookRouter.post('/', (req, res) => {
   const book = req.body;
-
-  // Validate inserted data
-  // if (!isMatch(book, BookSchema)) {
-  //   res.status(400).send();
-  // }
 
   // Insert new book into cache
   writeDb({

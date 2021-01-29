@@ -1,10 +1,8 @@
 import { readFileSync, writeFileSync } from 'fs';
+
 import merge from 'lodash/merge.js';
 
-export const readDb = () => {
-  return JSON.parse(readFileSync('store.json'));
-};
-
-export const writeDb = (data) => {
-  writeFileSync('store.json', merge(readDb(), data));
-};
+const filename = process.env.STOREFILE || 'store.json';
+export const readDb = () => JSON.parse(readFileSync(filename));
+export const writeDb = (data) =>
+  writeFileSync(filename, JSON.stringify(merge(readDb(), data)));

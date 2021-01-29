@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { isMatch } from '../validation.js';
+
 import { readDb, writeDb } from '../db.js';
 import LoanSchema from '../schemas/loan.js';
+import { isMatch } from '../validation.js';
 
 const loanRouter = Router();
 

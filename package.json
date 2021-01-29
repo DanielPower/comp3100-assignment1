@@ -5,8 +5,10 @@
   "main": "main.js",
   "type": "module",
   "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "got": "^11.8.1",
+    "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
     "prettier": "^2.2.1",
     "validator": "^13.5.2"
