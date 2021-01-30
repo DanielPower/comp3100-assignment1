@@ -1,6 +1,7 @@
 import { Router } from 'express';
-
 import { readDb, writeDb } from '../db.js';
+import BookSchema from '../schemas/book.js';
+import { isMatch } from '../validation.js';
 
 const bookRouter = Router();
 
@@ -51,6 +52,16 @@ bookRouter.get('/available/:id', (req, res) => {
 // Insert a book
 bookRouter.post('/', (req, res) => {
   const book = req.body;
+
+  // Prevent overwrite on post
+  if (readDb().books[book.id]) {
+    return res.status(409).send();
+  }
+
+  // Validate data before inserting
+  if (!isMatch(book, BookSchema)) {
+    return res.status(400).send();
+  }
 
   // Insert new book into cache
   writeDb({

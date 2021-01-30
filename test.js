@@ -1,9 +1,8 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import isEqual from 'lodash.isequal';
 import { writeFileSync } from 'fs';
 import { readDb } from './db.js';
-
-import isEqual from 'lodash.isequal';
 
 dotenv.config();
 
@@ -27,6 +26,7 @@ if (!location) {
   process.exit();
 }
 
+// Helper function to simplify validating test results
 const expect = (name, value) => ({
   toBe: (expectation) => {
     if (!isEqual(value, expectation)) {
@@ -42,6 +42,7 @@ const { get, put, post } = axios.create({
   timeout: 3000,
 });
 
+// Sample database used by unit tests
 const testDatabase = {
   books: {
     5: {

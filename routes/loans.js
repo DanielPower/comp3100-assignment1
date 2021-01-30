@@ -24,15 +24,14 @@ loanRouter.get('/', (req, res) => {
 loanRouter.post('/', (req, res) => {
   const loan = req.body;
 
-  // Validate inserted data
-  if (!isMatch(loan, LoanSchema)) {
-    res.status(400).send();
-  }
-
   // Prevent overwrite on post
   if (readDb().loans[loan.id]) {
-    res.status(409).send();
-    return;
+    return res.status(409).send();
+  }
+
+  // Validate data before inserting data
+  if (!isMatch(loan, LoanSchema)) {
+    return res.status(400).send();
   }
 
   // Write new loan data to cache
@@ -51,8 +50,7 @@ loanRouter.put('/', (req, res) => {
 
   // Handle loan not found case
   if (!existingLoan) {
-    res.status(404).send();
-    return;
+    return res.status(404).send();
   }
 
   // Modify existingLoan with new data

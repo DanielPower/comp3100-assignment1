@@ -1,13 +1,12 @@
 // Field validation functions
 export const isString = (value) => typeof value === 'string';
 export const isNot = (badValue) => (value) => value !== badValue;
-export const isArray = (validator, notEmpty) => (value) => {
+export const isArray = (validators, notEmpty) => (value) => {
   try {
-    const array = JSON.parse(value);
     return (
-      Array.isArray(array) &&
-      array.every((subvalue) => validator(subvalue)) &&
-      (!notEmpty || array.length)
+      Array.isArray(value) &&
+      value.every((subvalue) => validators.every((validator) => validator(subvalue))) &&
+      (!notEmpty || value.length)
     );
   } catch {
     return false;
