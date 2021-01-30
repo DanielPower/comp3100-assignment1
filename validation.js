@@ -15,6 +15,9 @@ export const isArray = (validator, notEmpty) => (value) => {
 };
 export const isBoolean = (value) => typeof value === 'boolean';
 export const isNumber = (value) => typeof value === 'number';
+export const isEqualTo = (expectation) => (value) => value === expectation;
+export const isOneOf = (validators) => (value) =>
+  validators.some((validator) => validator(value));
 
 // Schema validation function
 export const isMatch = (object, schema, { allowSubset = false } = {}) =>

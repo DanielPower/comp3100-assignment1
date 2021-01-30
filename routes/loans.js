@@ -11,10 +11,10 @@ loanRouter.get('/', (req, res) => {
   let loans = Object.values(readDb().loans);
 
   // Filter by finished status
-  if (req.query.finished === 'true') {
-    loans = loans.filter((loan) => loan.finished);
-  } else if (req.query.finished === 'false') {
-    loans = loans.filter((loan) => !loan.finished);
+  if (req.query.wasReturned === 'true') {
+    loans = loans.filter((loan) => loan.wasReturned);
+  } else if (req.query.wasReturned === 'false') {
+    loans = loans.filter((loan) => !loan.wasReturned);
   }
 
   res.json(loans);
@@ -61,6 +61,7 @@ loanRouter.put('/', (req, res) => {
       [loan.id]: { ...existingLoan, ...loan },
     },
   });
+  res.send();
 });
 
 export default loanRouter;
