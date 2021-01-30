@@ -1,8 +1,8 @@
 # COMP 3100 Assignment 1
 
-Author: Daniel Power
-Student Number: 201244498
-Email: djp468@mun.ca
+Author: Daniel Power  
+Student Number: 201244498  
+Email: djp468@mun.ca  
 
 # Running the server
 
