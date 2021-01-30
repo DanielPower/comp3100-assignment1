@@ -53,6 +53,13 @@ loanRouter.put('/', (req, res) => {
     return res.status(404).send();
   }
 
+  // Validate data before inserting
+  // In this case we allow a subset, because we only need to pass the id, and the data
+  // that needs to change
+  if (!isMatch(loan, LoanSchema, { allowSubset: true })) {
+    return res.status(400).send();
+  }
+
   // Modify existingLoan with new data
   writeDb({
     loans: {
